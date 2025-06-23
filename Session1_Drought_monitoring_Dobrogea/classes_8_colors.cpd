@@ -1,0 +1,37 @@
+#SNAP Colour Palette Definition File
+#Wed Jun 04 15:35:55 EEST 2025
+autoDistribute=false
+#Pumpkin color - very dry vegetation
+color0=224,128,0
+#medium dark shade of yellow - dry vegetation
+color1=192,128,0
+#Olive - wet vegetation
+color2=128,128,0
+#medium dark shade of green - very wet vegetation
+color3=64,128,0
+#deep orange - very dry soil
+color4=224,64,0
+#strong reddish-brown - dry soil
+color5=192,64,0
+#medium dark shade of brown - wet soil
+color6=128,64,0
+#very dark shade of yellow-green - very wet soil
+color7=64,64,0
+isLogScaled=false
+label0=very_dry_vegetation
+label1=dry_vegetation
+label2=wet_vegetation
+label3=very_wet_vegetation
+label4=very_dry_soil
+label5=dry_soil
+label6=wet_soil
+label7=very_wet_soil
+numPoints=8
+sample0=1.0
+sample1=2.0
+sample2=3.0
+sample3=4.0
+sample4=5.0
+sample5=6.0
+sample6=7.0
+sample7=8.0

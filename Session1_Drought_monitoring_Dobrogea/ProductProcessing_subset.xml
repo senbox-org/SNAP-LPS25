@@ -1,0 +1,168 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <useAdvancedOptions>false</useAdvancedOptions>
+      <file>$Input</file>
+      <copyMetadata>true</copyMetadata>
+      <bandNames/>
+      <maskNames/>
+    </parameters>
+  </node>
+  <node id="S2Resampling">
+    <operator>S2Resampling</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <resolution>10</resolution>
+      <upsampling>Bilinear</upsampling>
+      <downsampling>Mean</downsampling>
+      <flagDownsampling>First</flagDownsampling>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+      <bands>B4,B8,B11,B12,quality_scene_classification</bands>
+      <masks/>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="S2Resampling"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <tiePointGrids/>
+      <region>0,0,0,0</region>
+      <referenceBand/>
+       <geoRegion>POLYGON ((28.050704956054688 45.147029876708984, 28.377599716186523 45.147029876708984, 28.377599716186523 44.16024398803711, 28.050704956054688 44.16024398803711, 28.050704956054688 45.147029876708984, 28.050704956054688 45.147029876708984))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <vectorFile/>
+      <polygonRegion/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="NDVI">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NDVI</name>
+          <type>float32</type>
+          <expression> if (quality_scene_classification) != 0 AND (quality_scene_classification != 3) AND (quality_scene_classification != 6) AND (quality_scene_classification != 8) AND (quality_scene_classification != 9) then (B8 - B4) / (B8 + B4) else NaN</expression>
+          <description/>
+          <unit/>
+          <noDataValue>NaN</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="NMDI">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NMDI</name>
+          <type>float32</type>
+          <expression>if (quality_scene_classification) != 0 AND (quality_scene_classification != 3) AND (quality_scene_classification != 6) AND (quality_scene_classification != 8) AND (quality_scene_classification != 9) then (B8 - (B11 - B12)) / (B8 + (B11 - B12)) else NaN</expression>
+          <description/>
+          <unit/>
+          <noDataValue>NaN</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="Classification">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="NDVI"/>
+      <sourceProduct.1 refid="NMDI"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>classification</name>
+          <type>float32</type>
+          <expression>if ( $1.NDVI &gt;= 0.4) then
+		if ($2.NMDI &lt; 0.2) then 1 
+		else if ($2.NMDI &lt; 0.4) then 2 
+		else if ($2.NMDI &lt;= 0.6) then 3 
+		else if ($2.NMDI &gt; 0.6 and $2.NMDI &lt;= 1) then 4
+		else NaN
+	else if ( $2.NMDI &lt; 0.3) then 8
+	else if ($2.NMDI &lt;= 0.5) then 7
+	else if ($2.NMDI &lt; 0.7) then 6
+	else if ($2.NMDI &gt;= 0.7 and $2.NMDI &lt;= 1) then 5
+	else NaN
+</expression>
+          <description/>
+          <unit/>
+          <noDataValue>NaN</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="ClassifiedProduct">
+    <operator>BandMerge</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+      <sourceProduct.1 refid="NDVI"/>
+      <sourceProduct.2 refid="NMDI"/>
+      <sourceProduct.3 refid="Classification"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <geographicError>1.0E-5</geographicError>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="ClassifiedProduct"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>$Output</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="14.0" y="134.0"/>
+    </node>
+    <node id="S2Resampling">
+      <displayPosition x="114.0" y="134.0"/>
+    </node>
+    <node id="NDVI">
+      <displayPosition x="212.0" y="197.0"/>
+    </node>
+    <node id="NMDI">
+      <displayPosition x="292.0" y="196.0"/>
+    </node>
+    <node id="Classification">
+      <displayPosition x="248.0" y="277.0"/>
+    </node>
+    <node id="ClassifiedProduct">
+      <displayPosition x="366.0" y="134.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="254.0" y="134.0"/>
+    </node>
+    <node id="Write">
+	  <displayPosition x="512.0" y="133.0"/>
+    </node>
+  </applicationData>
+</graph>

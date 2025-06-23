@@ -1,0 +1,97 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <useAdvancedOptions>false</useAdvancedOptions>
+      <file>E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output2\$input</file>
+      <copyMetadata>true</copyMetadata>
+      <bandNames/>
+      <pixelRegion>0,0,10980,10980</pixelRegion>
+      <maskNames/>
+    </parameters>
+  </node>
+  <node id="vegetation_classif">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>vegetation_classification</name>
+          <type>float32</type>
+          <expression>if classification &lt; 5 then classification else NaN</expression>
+          <description/>
+          <unit/>
+          <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>vegetation_classification.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="soil_classif">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>soil_classification</name>
+          <type>float32</type>
+          <expression>if classification &gt;= 5 then classification else NaN</expression>
+          <description/>
+          <unit/>
+          <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>soil_classification.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="BandMerge">
+    <operator>BandMerge</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+      <sourceProduct.1 refid="vegetation_classif"/>
+      <sourceProduct.2 refid="soil_classif"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <geographicError>1.0E-5</geographicError>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="BandMerge"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output3\$output</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="vegetation_classif">
+      <displayPosition x="155.0" y="64.0"/>
+    </node>
+    <node id="soil_classif">
+      <displayPosition x="154.0" y="222.0"/>
+    </node>
+    <node id="BandMerge">
+      <displayPosition x="295.0" y="133.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="446.0" y="135.0"/>
+    </node>
+  </applicationData>
+</graph>

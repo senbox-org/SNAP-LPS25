@@ -1,0 +1,225 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="ProductSet-Reader">
+    <operator>ProductSet-Reader</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <fileList>E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output1\202206\S2A_MSIL2A_20220616T085611_N0510_R007_T35TNK_20240620T045250_indices.dim,E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output1\202206\S2A_MSIL2A_20220619T090611_N0510_R050_T35TNK_20240628T141616_indices.dim,E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output1\202206\S2A_MSIL2A_20220629T090611_N0510_R050_T35TNK_20240630T082504_indices.dim,E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output1\202206\S2B_MSIL2A_20220601T085559_N0510_R007_T35TNK_20240624T153540_indices.dim,E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output1\202206\S2B_MSIL2A_20220604T090559_N0510_R050_T35TNK_20240629T221314_indices.dim,E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output1\202206\S2B_MSIL2A_20220621T085559_N0510_R007_T35TNK_20240620T063240_indices.dim</fileList>
+    </parameters>
+  </node>
+  <node id="NDVI_sum">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct.6 refid="ProductSet-Reader"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NDVI_sum</name>
+          <type>float32</type>
+          <expression>(nan($1.NDVI) ? 0 : $1.NDVI) + (nan($2.NDVI) ? 0 : $2.NDVI) + (nan($3.NDVI) ? 0 : $3.NDVI) + (nan($4.NDVI) ? 0 : $4.NDVI) + (nan($5.NDVI) ? 0 : $5.NDVI) + (nan($6.NDVI) ? 0 : $6.NDVI)</expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>NDVI_sum.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="NDVI_count">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct.6 refid="ProductSet-Reader"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NDVI_count</name>
+          <type>float32</type>
+          <expression>(nan($1.NDVI)? 0 : 1) + (nan($2.NDVI) ? 0 : 1) + (nan($3.NDVI) ? 0 : 1) + (nan($4.NDVI) ? 0 : 1) + (nan($5.NDVI) ? 0 : 1) + (nan($6.NDVI) ? 0 : 1)</expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>NDVI_count.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="NDVI_avg">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="NDVI_sum"/>
+      <sourceProduct.1 refid="NDVI_count"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NDVI_avg</name>
+          <type>float32</type>
+          <expression>if $2.NDVI_count == 0 then NaN else $1.NDVI_sum/ $2.NDVI_count</expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>NDVI_avg.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="NMDI_sum">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct.6 refid="ProductSet-Reader"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NMDI_sum</name>
+          <type>float32</type>
+          <expression>(nan($1.NMDI) ? 0 : $1.NMDI) + (nan($2.NMDI) ? 0 : $2.NMDI) + (nan($3.NMDI) ? 0 : $3.NMDI) + (nan($4.NMDI) ? 0 : $4.NMDI) + (nan($5.NMDI) ? 0 : $5.NMDI) + (nan($6.NMDI) ? 0 : $6.NMDI)</expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>NMDI_sum.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="NMDI_count">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct.6 refid="ProductSet-Reader"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NMDI_count</name>
+          <type>float32</type>
+          <expression>(nan($1.NMDI)? 0 : 1) + (nan($2.NMDI) ? 0 : 1) + (nan($3.NMDI) ? 0 : 1) + (nan($4.NMDI) ? 0 : 1) + (nan($5.NMDI) ? 0 : 1) + (nan($6.NMDI) ? 0 : 1)</expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>NMDI_count.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="NMDI_avg">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="NMDI_sum"/>
+      <sourceProduct.1 refid="NMDI_count"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>NMDI_avg</name>
+          <type>float32</type>
+          <expression>if $2.NMDI_count == 0 then NaN else $1.NMDI_sum/ $2.NMDI_count</expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>NMDI_avg.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="Classification">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="NDVI_avg"/>
+      <sourceProduct.1 refid="NMDI_avg"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand><name>classification</name>
+          <type>float32</type>
+          <expression>if ( $1.NDVI_avg &gt;= 0.4) then
+				if ($2.NMDI_avg &lt; 0.2) then 1 
+				else if ($2.NMDI_avg &lt; 0.4) then 2 
+				else if ($2.NMDI_avg &lt;= 0.6) then 3 
+				else if ($2.NMDI_avg &gt; 0.6 and $2.NMDI_avg &lt;= 1) then 4
+				else NaN
+			else if ($2.NMDI_avg &lt; 0.3) then 8
+			else if ($2.NMDI_avg &lt;= 0.5) then 7
+			else if ($2.NMDI_avg &lt; 0.7) then 6
+			else if ($2.NMDI_avg &gt;= 0.7 and $2.NMDI_avg &lt;= 1) then 5
+			else NaN
+		  </expression>
+          <description/>
+          <unit/>
+		  <noDataValue>NaN</noDataValue>
+		  <noDataValueUsed>true</noDataValueUsed>
+		  <validExpression>classification.raw</validExpression>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="MergedProduct">
+    <operator>BandMerge</operator>
+    <sources>
+      <sourceProduct refid="NDVI_avg"/>
+      <sourceProduct.1 refid="NMDI_avg"/>
+      <sourceProduct.2 refid="Classification"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <geographicError>1.0E-5</geographicError>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="MergedProduct"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>E:\Work\Projects\14_STEP\Docs\LPS 2025\Drought_monitoring_Dobrogea\Processing\Output2\S2_202206_classified.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="NDVI_sum">
+      <displayPosition x="115.0" y="43.0"/>
+    </node>
+    <node id="NDVI_count">
+      <displayPosition x="150.0" y="83.0"/>
+    </node>
+    <node id="NDVI_avg">
+      <displayPosition x="234.0" y="61.0"/>
+    </node>
+    <node id="NMDI_sum">
+      <displayPosition x="115.0" y="236.0"/>
+    </node>
+    <node id="NMDI_count">
+      <displayPosition x="151.0" y="197.0"/>
+    </node>
+    <node id="NMDI_avg">
+      <displayPosition x="246.0" y="222.0"/>
+    </node>
+    <node id="Classification">
+      <displayPosition x="278.0" y="141.0"/>
+    </node>
+    <node id="MergedProduct">
+      <displayPosition x="405.0" y="142.0"/>
+    </node>
+    <node id="Write">
+      <displayPosition x="547.0" y="143.0"/>
+    </node>
+    <node id="ProductSet-Reader">
+      <displayPosition x="43.0" y="142.0"/>
+    </node>
+  </applicationData>
+</graph>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Placemarks>
+    <Placemark name="pin_1">
+        <LABEL>Pin 1</LABEL>
+        <DESCRIPTION />
+        <LATITUDE>44.665479443368184</LATITUDE>
+        <LONGITUDE>28.21208280439633</LONGITUDE>
+        <PIXEL_X>1348.5</PIXEL_X>
+        <PIXEL_Y>5331.5</PIXEL_Y>
+        <STYLE_CSS>symbol:pin; fill:#0000ff; fill-opacity:0.7; stroke:#ffffff; stroke-opacity:1.0; stroke-width:0.5</STYLE_CSS>
+    </Placemark>
+    <Placemark name="pin_2">
+        <LABEL>Pin 2</LABEL>
+        <DESCRIPTION />
+        <LATITUDE>44.64998602874765</LATITUDE>
+        <LONGITUDE>28.204445472832298</LONGITUDE>
+        <PIXEL_X>1290.5</PIXEL_X>
+        <PIXEL_Y>5504.5</PIXEL_Y>
+        <STYLE_CSS>fill:#ff00ff; fill-opacity:0.7; stroke:#ffffff; stroke-opacity:1.0; stroke-width:0.5; symbol:pin</STYLE_CSS>
+    </Placemark>
+    <Placemark name="pin_3">
+        <LABEL>Pin 3</LABEL>
+        <DESCRIPTION />
+        <LATITUDE>44.64116650317884</LATITUDE>
+        <LONGITUDE>28.26251836700823</LONGITUDE>
+        <PIXEL_X>1752.5</PIXEL_X>
+        <PIXEL_Y>5595.5</PIXEL_Y>
+        <STYLE_CSS>fill:#ffff00; fill-opacity:0.7; stroke:#ffffff; stroke-opacity:1.0; stroke-width:0.5; symbol:pin</STYLE_CSS>
+    </Placemark>
+    <Placemark name="pin_4">
+        <LABEL>Pin 4</LABEL>
+        <DESCRIPTION />
+        <LATITUDE>44.63412481255945</LATITUDE>
+        <LONGITUDE>28.239671495588567</LONGITUDE>
+        <PIXEL_X>1572.5</PIXEL_X>
+        <PIXEL_Y>5676.5</PIXEL_Y>
+        <STYLE_CSS>fill:#ff0000; fill-opacity:0.7; stroke:#ffffff; stroke-opacity:1.0; stroke-width:0.5; symbol:pin</STYLE_CSS>
+    </Placemark>
+</Placemarks>
